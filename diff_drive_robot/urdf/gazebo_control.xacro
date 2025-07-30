@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Access the namespace from the parent file -->
+  <!-- PROBLEMAAA: NAO TEM TF DO ODOM PARA BASE_LINK NO TF tree -->
+  <xacro:macro name="gazebo_control" params="namespace">
+   <xacro:property name="ns" value="${namespace}" />
+
+    <gazebo>
+      <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+        <right_joint>right_wheel_joint</right_joint>
+        <left_joint>left_wheel_joint</left_joint>
+        <wheel_separation>0.35</wheel_separation>
+        <wheel_diameter>0.05</wheel_diameter>
+        <max_linear_acceleration>10</max_linear_acceleration>
+        
+        <!-- Use namespace for topic names if provided -->
+        <xacro:if value="${ns != ''}">
+          <topic>/${ns}/cmd_vel</topic>
+          <odom_topic>/${ns}/odom</odom_topic>
+          <tf_topic>/${ns}/tf</tf_topic>
+          <frame_id>/${ns}/odom</frame_id>
+          <child_frame_id>/${ns}/base_link</child_frame_id>
+        </xacro:if>
+        <xacro:unless value="${ns != ''}">
+          <topic>/cmd_vel</topic>
+          <odom_topic>/odom</odom_topic>
+          <tf_topic>/tf</tf_topic>
+          <frame_id>/odom</frame_id>
+          <child_frame_id>/base_link</child_frame_id>
+        </xacro:unless>
+        
+        <!-- <frame_id>odom</frame_id>
+        <child_frame_id>base_link</child_frame_id> -->
+        <publish_tf>true</publish_tf>
+        <odom_publisher_frequency>100</odom_publisher_frequency>
+        <!-- <publish_odom_tf>true</publish_odom_tf> -->
+      </plugin>
+      
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <!-- Use namespace for topic names if provided -->
+        <xacro:if value="${ns != ''}">
+          <topic>/${ns}/joint_states</topic>
+        </xacro:if>
+        <xacro:unless value="${ns != ''}">
+          <topic>/joint_states</topic>
+        </xacro:unless>
+        
+        <joint_name>right_wheel_joint</joint_name>
+        <joint_name>left_wheel_joint</joint_name>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+</robot>
