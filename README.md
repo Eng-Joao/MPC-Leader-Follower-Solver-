@@ -21,7 +21,7 @@ This project implements an NMPC controller that enables a follower robot to main
 1. Clone this repository to your ROS2 workspace:
 ```bash
 cd ~/ros2_ws/src
-git clone [your-repo-url]
+git clone https://github.com/Eng-Joao/MPC-Leader-Follower-Solver-.git
 ```
 
 2. Build the workspace:
@@ -49,11 +49,9 @@ ros2 run vehicle_control mpc_controller_error
 
 ## Results
 
-![Leader-Follower Demo](demo.gif)
+![Leader-Follower Demo](example.gif)
 
 ## Credits
 
 - Two-wheel robot model inspired by: [diff_drive_robot](https://github.com/adoodevv/diff_drive_robot)
 - PS4 controller interface forked from: [PlayStation-JoyInterface-ROS2](https://github.com/HarvestX/PlayStation-JoyInterface-ROS2)
-
-## License
